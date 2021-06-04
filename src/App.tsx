@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useContext, useState } from 'react';
 import './App.css';
+import Balance from './components/Balance';
+import Header from './components/Header';
+import History from './components/History';
+import Transaction from './components/Transaction';
+import { TransactionProvider } from "./ContextApi/transContext";
+import { TransactionContext } from "./ContextApi/transContext";
 
 function App() {
+  let { transactions, addTransaction, deleteTransaction, updateTransaction } = useContext(TransactionContext);
+  let amount = useState("");
+  let desc = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TransactionProvider>
+      <div className="container">
+        <Header />
+        <Balance transactions={transactions} />
+        <History transactions={transactions} deleteTransaction={deleteTransaction} updateTransaction={updateTransaction} />
+        <Transaction amount={amount} desc={desc} transactions={transactions} addTransaction={addTransaction} />
+      </div>
+    </TransactionProvider>
   );
 }
 
